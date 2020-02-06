@@ -32,7 +32,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", function(req, res, next) {
   res.render("index", {
     title: "Bootstrap Template",
-    script: "/js/script.js"
+    utilsScript: "/js/utils.js",
+    autocompleteScript: "/js/autocomplete.js",
+    mainScript: "/js/script.js",
   });
 });
 

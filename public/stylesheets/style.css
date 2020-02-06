@@ -9,3 +9,7 @@ table {
 #ticker {
   background-color: lightsteelblue;
 }
+
+.defaultCursor {
+  cursor: default;
+}

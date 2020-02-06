@@ -1,6 +1,6 @@
 # Financial Data
 
-A app to retrieve the price of a stock by typing in the name of a ticker 
+A app to retrieve the most recent price of a stock by typing in the name or the ticker. When you stop typing it provides a dropdown menu with possible matches to the string that you have begun typing
 
 Instructions for running locally on your computer
 
