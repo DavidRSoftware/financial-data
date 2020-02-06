@@ -13,3 +13,7 @@ table {
 .defaultCursor {
   cursor: default;
 }
+
+.inline-display{
+  display: inline;
+}
