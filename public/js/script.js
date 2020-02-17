@@ -12,12 +12,15 @@ getStockPrice = (stock, priceElement) => {
       }
     })
     .then(res => {
+      if (res.data["Global Quote"] === undefined)
+        throw new Error(
+          "The API's limit of 5 API calls per minute has been reached"
+        );
       priceElement.innerText = res.data["Global Quote"]["05. price"];
-      //   tickerInput.classList.remove("is-invalid");
     })
     .catch(err => {
       console.error(err);
-      //   tickerInput.classList.add("is-invalid");
+      document.querySelector("#errorDisplay").innerHTML = err.message;
     });
 };
 
@@ -27,15 +30,14 @@ createAutoComplete({
             <div class="defaultCursor">${stock["2. name"]}</div>
           `;
   },
-  async fetchData(searchTerm) {
-    const response = await axios.get("https://www.alphavantage.co/query", {
+  fetchData(searchTerm) {
+    return axios.get("https://www.alphavantage.co/query", {
       params: {
         apikey: "ZN5KRTN6P1U4FJH4",
         function: "SYMBOL_SEARCH",
         keywords: searchTerm
       }
     });
-    return response.data.bestMatches;
   },
   root: document.querySelector("#autocomplete"),
   onOptionSelect(stock) {
@@ -47,15 +49,26 @@ createAutoComplete({
   }
 });
 
-const onStockSelect = async (stockTicker, stockName, summaryElement) => {
-  const response = await axios.get("https://www.alphavantage.co/query", {
-    params: {
-      apikey: "ZN5KRTN6P1U4FJH4",
-      function: "GLOBAL_QUOTE",
-      symbol: stockTicker
-    }
-  });
-  updateTable(response.data["Global Quote"], stockName, summaryElement);
+const onStockSelect = (stockTicker, stockName, summaryElement) => {
+  axios
+    .get("https://www.alphavantage.co/query", {
+      params: {
+        apikey: "ZN5KRTN6P1U4FJH4",
+        function: "GLOBAL_QUOTE",
+        symbol: stockTicker
+      }
+    })
+    .then(response => {
+      if (response.data["Global Quote"] === undefined)
+      throw new Error(
+        "The API's limit of 5 API calls per minute has been reached"
+      );
+      updateTable(response.data["Global Quote"], stockName, summaryElement);
+    })
+    .catch(err => {
+      console.log(err);
+      document.querySelector("#errorDisplay").innerHTML = err.message;
+    });
 };
 
 const updateTable = (stockDetail, stockName, table) => {
