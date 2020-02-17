@@ -1,6 +1,6 @@
 let count = 1;
-const list = []; //add feature so the same stock cannot be added twice
-//add code to handle errors with axios and await syntax
+//keeps track of the stocks that are added so that the same stock cannot be added twice
+let listOfStockTickers = [];
 
 getStockPrice = (stock, priceElement) => {
   axios
@@ -60,9 +60,16 @@ const onStockSelect = (stockTicker, stockName, summaryElement) => {
     })
     .then(response => {
       if (response.data["Global Quote"] === undefined)
-      throw new Error(
-        "The API's limit of 5 API calls per minute has been reached"
-      );
+        throw new Error(
+          "The API's limit of 5 API calls per minute has been reached"
+        );
+      else if (
+        listOfStockTickers.includes(response.data["Global Quote"]["01. symbol"])
+      )
+        throw new Error(
+          `${stockName} is already included in your list of stocks.`
+        );
+      listOfStockTickers.push(response.data["Global Quote"]["01. symbol"]);
       updateTable(response.data["Global Quote"], stockName, summaryElement);
     })
     .catch(err => {
@@ -123,6 +130,9 @@ const updateTable = (stockDetail, stockName, table) => {
   newRemoveButton.className = "btn btn-secondary";
   newRemoveButton.innerText = "Remove";
   newRemoveButton.addEventListener("click", () => {
+    listOfStockTickers = listOfStockTickers.filter(
+      e => e !== stockDetail["01. symbol"]
+    );
     newRow.remove();
   });
   newData.append(newRemoveButton);

@@ -1,9 +1,9 @@
-var express = require("express");
-var exphbs = require("express-handlebars");
-var path = require("path");
-var bodyParser = require("body-parser");
-var app = express();
-var port = process.env.PORT || 5000;
+const express = require("express");
+const exphbs = require("express-handlebars");
+const path = require("path");
+const bodyParser = require("body-parser");
+const app = express();
+const port = process.env.PORT || 5000;
 
 app.use(
   bodyParser.urlencoded({
@@ -29,9 +29,9 @@ app.set("view engine", ".hbs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", function(req, res, next) {
+app.get("/", function(req, res) {
   res.render("index", {
-    title: "Bootstrap Template",
+    title: "Financial Data",
     utilsScript: "/js/utils.js",
     autocompleteScript: "/js/autocomplete.js",
     mainScript: "/js/script.js",
@@ -39,6 +39,6 @@ app.get("/", function(req, res, next) {
 });
 
 app.set("port", process.env.PORT || 5000);
-var server = app.listen(port, function() {
+const server = app.listen(port, function() {
   console.log("Express server listening on port " + server.address().port);
 });

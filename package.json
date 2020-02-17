@@ -1,7 +1,7 @@
 {
-  "name": "template-website-bootstrap",
+  "name": "financial-data",
   "version": "1.0.0",
-  "description": "A starter website to build Bootstrap applications",
+  "description": "A app to retrieve the most recent price of a stock by typing in the name or the ticker",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
